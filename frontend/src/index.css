@@ -41,16 +41,19 @@
 }
 
 @layer base {
-  html {
+  *,
+  *::before,
+  *::after {
     @apply transition-colors duration-200;
   }
 
   body {
-    @apply bg-background bg-mobile md:bg-desktop bg-cover bg-no-repeat p-10 md:py-20 flex justify-center font-josefin;
+    @apply bg-background bg-mobile md:bg-desktop bg-cover bg-no-repeat px-5 py-10 md:py-20 
+      flex justify-center font-josefin;
   }
 
   #root {
-    @apply w-full min-w-9/10 md:min-w-150 flex justify-center;
+    @apply w-full flex justify-center;
   }
 }
 

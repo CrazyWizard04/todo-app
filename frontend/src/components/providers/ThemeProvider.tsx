@@ -4,12 +4,12 @@ import { ThemeContext } from '../../contexts/ThemeContext';
 const ThemeProvider = ({ children }: PropsWithChildren) => {
   const [isDarkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem('theme');
-    if (saved) return JSON.parse(saved);
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    if (saved) return saved === 'dark';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
   function toggleDarkMode() {
-    setDarkMode((prev: boolean) => {
+    setDarkMode((prev) => {
       const newTheme = !prev;
       const html = document.documentElement;
 
