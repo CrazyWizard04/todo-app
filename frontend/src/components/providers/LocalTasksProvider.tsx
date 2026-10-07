@@ -1,12 +1,13 @@
 import { useEffect, useState, type PropsWithChildren } from 'react';
 import { TasksContext } from '../../contexts/TasksContext';
-import type { Task } from '../../lib/types';
+import type { Task, TaskFilter } from '../../lib/types';
 
 const LocalTasksProvider = ({ children }: PropsWithChildren) => {
   const [tasks, setTasks] = useState<Task[]>(() => {
     const saved = localStorage.getItem('tasks');
     return saved ? JSON.parse(saved) : [];
   });
+  const [filter, setFilter] = useState<TaskFilter>('all');
 
   function addTask(description: string) {
     const existing = tasks.find((task) => task.description === description);
@@ -27,10 +28,21 @@ const LocalTasksProvider = ({ children }: PropsWithChildren) => {
     setTasks((prev) => prev.filter((task) => task.id !== id));
   }
 
+  function removeCompletedTasks() {
+    setTasks((prev) => prev.filter((task) => !task.is_completed));
+  }
+
   function updateTask(id: string, changes: Partial<Task>) {
     setTasks((prev) =>
       prev.map((task) => (task.id === id ? { ...task, ...changes } : task)),
     );
+  }
+
+  function updateTaskPosition(newOrder: Task[]) {
+    if (filter !== 'all') return setTasks(newOrder);
+
+    const updated = newOrder.map((task, index) => ({ ...task, position: index }));
+    setTasks(updated);
   }
 
   useEffect(() => {
@@ -38,7 +50,18 @@ const LocalTasksProvider = ({ children }: PropsWithChildren) => {
   }, [tasks]);
 
   return (
-    <TasksContext.Provider value={{ tasks, addTask, removeTask, updateTask }}>
+    <TasksContext.Provider
+      value={{
+        tasks,
+        filter,
+        addTask,
+        removeTask,
+        removeCompletedTasks,
+        updateTask,
+        updateTaskPosition,
+        setFilter,
+      }}
+    >
       {children}
     </TasksContext.Provider>
   );

@@ -6,6 +6,7 @@ export type Task = {
   created_at: Date;
   updated_at: Date;
 };
+export type TaskFilter = 'all' | 'active' | 'completed';
 
 export type Toast = {
   id: string;

@@ -15,8 +15,9 @@
   --background-image-desktop: url('/bg-desktop-light.jpg');
 
   /* Light theme */
-  --color-background: hsl(0 0% 98%);
-  --color-surface: hsl(0 0% 100%);
+  --color-background: hsl(0 0% 95%);
+  --color-surface: hsl(0 0% 97%);
+  --color-surface-sec: hsl(0 0% 100%);
   --color-text: hsl(235 19% 35%);
   --color-muted: hsl(236 9% 61%);
   --color-completed: hsl(234 39% 85%);
@@ -34,6 +35,7 @@
   /* Dark Theme */
   --color-background: hsl(235 21% 11%);
   --color-surface: hsl(235 24% 19%);
+  --color-surface-sec: hsl(236, 24%, 24%);
   --color-text: hsl(236 33% 92%);
   --color-muted: hsl(235 16% 43%);
   --color-completed: hsl(233 14% 35%);

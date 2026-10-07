@@ -1,15 +1,16 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type RefObject } from 'react';
 import type { Task } from '../../lib/types';
-import { Reorder, useDragControls } from 'framer-motion';
+import { easeOut, Reorder, useDragControls } from 'framer-motion';
 import { Check, Pencil, Trash, X } from 'lucide-react';
 import { useTask } from '../../hooks/useTask';
 import Button from '../ui/Button';
 
 type TaskCardProps = {
   task: Task;
+  dragConstraints: RefObject<null>;
 };
 
-const TaskCard = ({ task }: TaskCardProps) => {
+const TaskCard = ({ task, dragConstraints }: TaskCardProps) => {
   const { id, description, is_completed } = task;
   const { removeTask, updateTask } = useTask();
 
@@ -28,9 +29,15 @@ const TaskCard = ({ task }: TaskCardProps) => {
     <Reorder.Item
       key={id}
       value={task}
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.4, ease: easeOut }}
       dragListener={false}
       dragControls={controls}
-      className="bg-surface flex justify-between items-center gap-4 p-4 rounded-lg"
+      dragConstraints={dragConstraints}
+      dragElastic={0.1}
+      className="bg-surface-sec flex justify-between items-center gap-4 p-4 
+        rounded-lg active:shadow-2xl active:cursor-grabbing"
     >
       {isEditing ? (
         <>
