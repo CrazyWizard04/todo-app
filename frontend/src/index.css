@@ -23,6 +23,9 @@
   --color-completed: hsl(234 39% 85%);
   --color-border: hsl(233 11% 84%);
 
+  /* CSS Animation */
+  --animate-toast-timer: toast-timer 5s ease-out;
+
   /* Typography */
   --font-josefin: 'Josefin Sans', sans-serif;
 }
@@ -49,7 +52,7 @@
 
   body {
     @apply min-h-screen w-full bg-background bg-mobile md:bg-desktop bg-contain bg-no-repeat 
-      px-5 py-10 md:py-20 flex justify-center font-josefin transition-colors duration-200;
+      py-10 md:py-20 flex justify-center font-josefin transition-colors duration-200;
   }
 
   #root {
@@ -59,4 +62,13 @@
 
 @utility flex-center {
   @apply flex items-center justify-center;
+}
+
+@keyframes toast-timer {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0;
+  }
 }

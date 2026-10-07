@@ -1,8 +1,10 @@
 import { useEffect, useState, type PropsWithChildren } from 'react';
 import { TasksContext } from '../../contexts/TasksContext';
 import type { Task, TaskFilter } from '../../lib/types';
+import { useToast } from '../../hooks/useToast';
 
 const LocalTasksProvider = ({ children }: PropsWithChildren) => {
+  const { addToast } = useToast();
   const [tasks, setTasks] = useState<Task[]>(() => {
     const saved = localStorage.getItem('tasks');
     return saved ? JSON.parse(saved) : [];
@@ -11,7 +13,7 @@ const LocalTasksProvider = ({ children }: PropsWithChildren) => {
 
   function addTask(description: string) {
     const existing = tasks.find((task) => task.description === description);
-    if (existing) return;
+    if (existing) return addToast('Task with this description already exists', 'error');
 
     const newTask = {
       id: crypto.randomUUID(),

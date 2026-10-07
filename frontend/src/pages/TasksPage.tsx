@@ -4,7 +4,7 @@ import TaskList from '../components/tasks/TaskList';
 
 const TasksPage = () => {
   return (
-    <main className="min-w-9/10 md:min-w-3xl space-y-10">
+    <main className="w-full max-w-9/10 md:max-w-200 space-y-10">
       <Navbar />
       <CreateTaskInput />
       <TaskList />
