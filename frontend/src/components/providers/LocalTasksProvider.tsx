@@ -24,8 +24,7 @@ const LocalTasksProvider = ({ children }: PropsWithChildren) => {
   }
 
   function removeTask(id: string) {
-    const filtered = tasks.filter((task) => task.id !== id);
-    setTasks(filtered);
+    setTasks((prev) => prev.filter((task) => task.id !== id));
   }
 
   function updateTask(id: string, changes: Partial<Task>) {

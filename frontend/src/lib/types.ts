@@ -6,3 +6,10 @@ export type Task = {
   created_at: Date;
   updated_at: Date;
 };
+
+export type Toast = {
+  id: string;
+  type: ToastType;
+  message: string;
+};
+export type ToastType = 'success' | 'error' | 'info';
