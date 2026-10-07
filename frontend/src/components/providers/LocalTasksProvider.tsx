@@ -16,7 +16,7 @@ const LocalTasksProvider = ({ children }: PropsWithChildren) => {
       id: crypto.randomUUID(),
       description,
       position: tasks.length,
-      is_completed: true,
+      is_completed: false,
       created_at: new Date(),
       updated_at: new Date(),
     } as Task;
@@ -29,7 +29,7 @@ const LocalTasksProvider = ({ children }: PropsWithChildren) => {
 
   function updateTask(id: string, changes: Partial<Task>) {
     setTasks((prev) =>
-      prev.map((task) => (task.id === id ? { ...task, changes } : task)),
+      prev.map((task) => (task.id === id ? { ...task, ...changes } : task)),
     );
   }
 

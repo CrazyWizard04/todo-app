@@ -1,19 +1,14 @@
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from '../../hooks/useTheme';
+import Button from '../ui/Button';
 
 const Navbar = () => {
   const { isDarkMode, toggleDarkMode } = useTheme();
 
   return (
-    <nav className="w-full flex justify-between text-white">
+    <nav className="flex justify-between text-white">
       <span className="text-3xl font-bold tracking-[10px] uppercase">todo</span>
-      <button
-        type="button"
-        onClick={toggleDarkMode}
-        className="cursor-pointer focus-visible:outline-2 focus-visible:outline-white rounded-md"
-      >
-        {isDarkMode ? <Sun className="size-8" /> : <Moon className="size-8" />}
-      </button>
+      <Button Icon={isDarkMode ? Sun : Moon} IconSize={32} onClick={toggleDarkMode} />
     </nav>
   );
 };
