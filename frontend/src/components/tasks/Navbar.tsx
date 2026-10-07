@@ -7,7 +7,11 @@ const Navbar = () => {
   return (
     <nav className="w-full flex justify-between text-white">
       <span className="text-3xl font-bold tracking-[10px] uppercase">todo</span>
-      <button type="button" onClick={toggleDarkMode} className="cursor-pointer">
+      <button
+        type="button"
+        onClick={toggleDarkMode}
+        className="cursor-pointer focus-visible:outline-2 focus-visible:outline-white rounded-md"
+      >
         {isDarkMode ? <Sun className="size-8" /> : <Moon className="size-8" />}
       </button>
     </nav>

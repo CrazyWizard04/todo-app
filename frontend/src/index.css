@@ -5,7 +5,7 @@
   --color-blue-500: hsl(220 98% 61%);
 
   --background-image-check: linear-gradient(
-    to right,
+    to bottom right,
     hsl(192 100% 67%),
     hsl(280 87% 65%)
   );
@@ -41,15 +41,13 @@
 }
 
 @layer base {
-  *,
-  *::before,
-  *::after {
+  html {
     @apply transition-colors duration-200;
   }
 
   body {
-    @apply bg-background bg-mobile md:bg-desktop bg-cover bg-no-repeat px-5 py-10 md:py-20 
-      flex justify-center font-josefin;
+    @apply min-h-screen w-full bg-background bg-mobile md:bg-desktop bg-contain bg-no-repeat 
+      px-5 py-10 md:py-20 flex justify-center font-josefin transition-colors duration-200;
   }
 
   #root {

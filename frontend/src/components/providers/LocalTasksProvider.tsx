@@ -1,4 +1,4 @@
-import { useState, type PropsWithChildren } from 'react';
+import { useEffect, useState, type PropsWithChildren } from 'react';
 import { TasksContext } from '../../contexts/TasksContext';
 import type { Task } from '../../lib/types';
 
@@ -32,6 +32,10 @@ const LocalTasksProvider = ({ children }: PropsWithChildren) => {
       prev.map((task) => (task.id === id ? { ...task, changes } : task)),
     );
   }
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
 
   return (
     <TasksContext.Provider value={{ tasks, addTask, removeTask, updateTask }}>
