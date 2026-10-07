@@ -1,0 +1,48 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Colors */
+  --color-blue-500: hsl(220 98% 61%);
+
+  --background-image-check: linear-gradient(
+    to right,
+    hsl(192 100% 67%),
+    hsl(280 87% 65%)
+  );
+
+  /* Background Images */
+  --background-image-mobile: url('/bg-mobile-dark.jpg');
+  --background-image-desktop: url('/bg-desktop-dark.jpg');
+
+  /* Light theme */
+  --color-gray-50: hsl(0 0% 98%);
+  --color-purple-300: hsl(234 39% 85%);
+  --color-gray-300: hsl(233 11% 84%);
+  --color-gray-600: hsl(236 9% 61%);
+  --color-navy-850: hsl(235 19% 35%);
+
+  /* Dark theme */
+  --color-background: hsl(235 21% 11%);
+  --color-surface: hsl(235 24% 19%);
+  --color-text: hsl(236 33% 92%);
+  --color-muted: hsl(235 16% 43%);
+  --color-purple-700: hsl(233 14% 35%);
+  --color-purple-800: hsl(237 14% 26%);
+
+  /* Typography */
+  --font-josefin: 'Josefin Sans', sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-background bg-mobile md:bg-desktop bg-cover bg-no-repeat p-10 md:py-20 flex justify-center;
+  }
+
+  #root {
+    @apply w-full flex justify-center;
+  }
+}
+
+@utility flex-center {
+  @apply flex items-center justify-center;
+}
