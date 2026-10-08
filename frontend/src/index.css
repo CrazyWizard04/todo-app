@@ -5,37 +5,54 @@
   --color-blue-500: hsl(220 98% 61%);
 
   --background-image-check: linear-gradient(
-    to right,
+    to bottom right,
     hsl(192 100% 67%),
     hsl(280 87% 65%)
   );
 
   /* Background Images */
-  --background-image-mobile: url('/bg-mobile-dark.jpg');
-  --background-image-desktop: url('/bg-desktop-dark.jpg');
+  --background-image-mobile: url('/bg-mobile-light.jpg');
+  --background-image-desktop: url('/bg-desktop-light.jpg');
 
   /* Light theme */
-  --color-gray-50: hsl(0 0% 98%);
-  --color-purple-300: hsl(234 39% 85%);
-  --color-gray-300: hsl(233 11% 84%);
-  --color-gray-600: hsl(236 9% 61%);
-  --color-navy-850: hsl(235 19% 35%);
+  --color-background: hsl(0 0% 95%);
+  --color-surface: hsl(0 0% 97%);
+  --color-surface-sec: hsl(0 0% 100%);
+  --color-text: hsl(235 19% 35%);
+  --color-muted: hsl(236 9% 61%);
+  --color-completed: hsl(234 39% 85%);
+  --color-border: hsl(233 11% 84%);
 
-  /* Dark theme */
-  --color-background: hsl(235 21% 11%);
-  --color-surface: hsl(235 24% 19%);
-  --color-text: hsl(236 33% 92%);
-  --color-muted: hsl(235 16% 43%);
-  --color-purple-700: hsl(233 14% 35%);
-  --color-purple-800: hsl(237 14% 26%);
+  /* CSS Animation */
+  --animate-toast-timer: toast-timer 5s ease-out;
 
   /* Typography */
   --font-josefin: 'Josefin Sans', sans-serif;
 }
 
+.dark {
+  /* Background Images */
+  --background-image-mobile: url('/bg-mobile-dark.jpg');
+  --background-image-desktop: url('/bg-desktop-dark.jpg');
+
+  /* Dark Theme */
+  --color-background: hsl(235 21% 11%);
+  --color-surface: hsl(235 24% 19%);
+  --color-surface-sec: hsl(236, 24%, 24%);
+  --color-text: hsl(236 33% 92%);
+  --color-muted: hsl(235 16% 43%);
+  --color-completed: hsl(233 14% 35%);
+  --color-border: hsl(237 14% 26%);
+}
+
 @layer base {
+  html {
+    @apply transition-colors duration-200;
+  }
+
   body {
-    @apply bg-background bg-mobile md:bg-desktop bg-cover bg-no-repeat p-10 md:py-20 flex justify-center;
+    @apply min-h-screen w-full bg-background bg-mobile md:bg-desktop bg-contain bg-no-repeat 
+      py-10 md:py-20 flex justify-center font-josefin transition-colors duration-200;
   }
 
   #root {
@@ -45,4 +62,13 @@
 
 @utility flex-center {
   @apply flex items-center justify-center;
+}
+
+@keyframes toast-timer {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0;
+  }
 }
