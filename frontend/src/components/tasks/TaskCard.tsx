@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type RefObject } from 'react';
-import type { Task } from '../../lib/types';
-import { easeOut, Reorder, useDragControls } from 'framer-motion';
+import type { DragItemProps, ItemAnimationProps, Task } from '../../lib/types';
+import { Reorder, useAnimate, useDragControls } from 'framer-motion';
 import { Check, Pencil, Trash, X } from 'lucide-react';
 import { useTask } from '../../hooks/useTask';
 import Button from '../ui/Button';
@@ -17,7 +17,41 @@ const TaskCard = ({ task, dragConstraints }: TaskCardProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [newDescription, setNewDescription] = useState(description);
   const editInputRef = useRef<HTMLInputElement>(null);
+  const [scope, animate] = useAnimate();
   const controls = useDragControls();
+
+  const itemAnimation = {
+    layout: true,
+    initial: { opacity: 0, scale: 0.96 },
+    animate: { opacity: 1, scale: 1 },
+    transition: { duration: 0.4, ease: 'easeOut' },
+  } as ItemAnimationProps;
+
+  const dragProps = {
+    dragListener: false,
+    dragControls: controls,
+    dragConstraints,
+    dragElastic: 0.1,
+  } as DragItemProps;
+
+  async function handleTaskRemove(id: string) {
+    animate(
+      'p',
+      { color: is_completed ? '#6ee7b7' : '#fca5a5' },
+      { ease: 'easeIn', duration: 0.125 },
+    );
+    await animate(
+      scope.current,
+      { scale: 1.025, boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.1)' },
+      { ease: 'easeIn', duration: 0.125 },
+    );
+    await animate(
+      scope.current,
+      { opacity: 0, x: is_completed ? 24 : -24 },
+      { delay: 0.75 },
+    );
+    removeTask(id);
+  }
 
   useEffect(() => {
     if (isEditing) {
@@ -29,13 +63,10 @@ const TaskCard = ({ task, dragConstraints }: TaskCardProps) => {
     <Reorder.Item
       key={id}
       value={task}
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.4, ease: easeOut }}
-      dragListener={false}
-      dragControls={controls}
-      dragConstraints={dragConstraints}
-      dragElastic={0.1}
+      ref={scope}
+      {...itemAnimation}
+      {...dragProps}
+      data-completed={is_completed}
       className="bg-surface-sec flex justify-between items-center gap-4 p-4 
         rounded-lg active:shadow-2xl active:cursor-grabbing"
     >
@@ -99,7 +130,7 @@ const TaskCard = ({ task, dragConstraints }: TaskCardProps) => {
             <Button
               type="button"
               Icon={Trash}
-              onClick={() => removeTask(id)}
+              onClick={() => handleTaskRemove(id)}
               className="hover:text-red-500"
             />
           </div>

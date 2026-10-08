@@ -1,5 +1,4 @@
-import { useRef } from 'react';
-import { Reorder } from 'framer-motion';
+import { motion, Reorder, useAnimate, type MotionProps } from 'framer-motion';
 import { useTask } from '../../hooks/useTask';
 import TaskCard from './TaskCard';
 import Button from '../ui/Button';
@@ -7,7 +6,7 @@ import Button from '../ui/Button';
 const TaskList = () => {
   const { tasks, filter, removeCompletedTasks, updateTaskPosition, setFilter } =
     useTask();
-  const container = useRef(null);
+  const [scope, animate] = useAnimate();
 
   const activeTasks = tasks.filter((tasks) => !tasks.is_completed);
   const filteredTasks = tasks.filter((task) => {
@@ -16,24 +15,47 @@ const TaskList = () => {
     return task;
   });
 
+  const itemAnimation = {
+    layout: true,
+    initial: { opacity: 0, scale: 0.96 },
+    animate: { opacity: 1, scale: 1 },
+    transition: { duration: 0.4, ease: 'easeOut' },
+  } as MotionProps;
+
+  async function handleTaskRemove() {
+    animate(
+      'li[data-completed="true"] p',
+      { color: '#6ee7b7' },
+      { ease: 'easeIn', duration: 0.125 },
+    );
+    await animate(
+      'li[data-completed="true"]',
+      { scale: 1.025, boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.1)' },
+      { ease: 'easeIn', duration: 0.125 },
+    );
+    await animate('li[data-completed="true"]', { opacity: 0, x: 24 }, { delay: 0.75 });
+    removeCompletedTasks();
+  }
+
   return (
     <Reorder.Group
-      ref={container}
+      ref={scope}
       values={tasks}
       onReorder={updateTaskPosition}
       className="relative bg-surface p-4 rounded-lg space-y-4 shadow-2xl"
     >
       {filteredTasks.length > 0 ? (
         filteredTasks.map((task) => (
-          <TaskCard key={task.id} dragConstraints={container} task={task} />
+          <TaskCard key={task.id} dragConstraints={scope} task={task} />
         ))
       ) : (
-        <div
+        <motion.div
+          {...itemAnimation}
           key="tasks_placeholder"
           className="bg-surface-sec text-center p-4 text-text md:text-lg rounded-lg"
         >
           No tasks here yet :)
-        </div>
+        </motion.div>
       )}
 
       <div className="flex justify-between items-center text-muted">
@@ -66,7 +88,7 @@ const TaskList = () => {
         <Button
           type="button"
           description="Clear Completed"
-          onClick={() => removeCompletedTasks()}
+          onClick={() => handleTaskRemove()}
         />
       </div>
     </Reorder.Group>
